@@ -2,6 +2,7 @@ package dev.shreyansh.testinginandroid.di
 
 import android.content.Context
 import androidx.room.Room
+import com.androiddevs.shoppinglisttestingyt.data.local.ShoppingDao
 import com.androiddevs.shoppinglisttestingyt.data.local.ShoppingItemDatabase
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
@@ -11,6 +12,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.shreyansh.testinginandroid.data.remote.PixabayAPI
+import dev.shreyansh.testinginandroid.repository.ShoppingRepository
+import dev.shreyansh.testinginandroid.repository.ShoppingRepositoryImpl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -36,9 +40,16 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideRetrofitDeps(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideRetrofitDeps(): PixabayAPI = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .baseUrl(BASE_URL)
         .build()
+        .create(PixabayAPI::class.java)
+
+
+    @Singleton
+    @Provides
+    fun provideDefaultShoppingRepository(database: ShoppingItemDatabase, api: PixabayAPI) = ShoppingRepositoryImpl(database, api) as ShoppingRepository
+
 }

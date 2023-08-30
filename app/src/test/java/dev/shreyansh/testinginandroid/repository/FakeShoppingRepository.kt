@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.androiddevs.shoppinglisttestingyt.data.local.ShoppingItem
 import com.androiddevs.shoppinglisttestingyt.data.remote.responses.ImageResponse
 import dev.shreyansh.testinginandroid.utils.Resource
-import org.junit.Assert.*
 
 class FakeShoppingRepository : ShoppingRepository {
 
@@ -17,9 +16,9 @@ class FakeShoppingRepository : ShoppingRepository {
 
     var shouldReturnNetworkError = false
 
-    fun setShouldReturnNetworkError(value: Boolean){
-        shouldReturnNetworkError = value
-    }
+//    fun setShouldReturnNetworkError(value: Boolean){
+//        shouldReturnNetworkError = value
+//    }
 
     private fun refreshLiveData(){
         observeAllShoppingItems.postValue(shoppingItems)
